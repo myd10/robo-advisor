@@ -24,3 +24,9 @@ pip install requirements
 ran app/robo_advisor.py
 
 ALPHAVANTAGE_API_KEY = "abc123"
+
+
+Click "raw" on his repo and copy environmental setup
+
+obtain an API key from (https://www.alphavantage.co/support/)
+

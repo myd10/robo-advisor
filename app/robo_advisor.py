@@ -11,7 +11,6 @@ import requests
 
 load_dotenv()
 
-
 #Function to convert Float to USD
 def to_usd(my_price):
     return "${0:,.2f}".format(my_price)
@@ -19,11 +18,10 @@ def to_usd(my_price):
 #
 # Information Inputs
 #
+symbol = input("Enter the Stock Symbol: ")
+api_key = os.getenv(ALHPAVANTAGE_API_KEY, default="demo")
 
-symbol = "MSFT"
-api_key = my_var = os.environ.get(ALHPAVANTAGE_API_KEY)
-
-request_url = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={symbol}&apikey={api_key}"
+request_url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={symbol}&apikey={api_key}"
 response = requests.get(request_url)
 #print(type(response)) # <class 'requests.models.Response'>
 #print(response.status_code) #200 or successful
@@ -62,10 +60,16 @@ recent_low = min(low_prices)
 #breakpoint()
 
 print("-------------------------")
-print("SELECTED SYMBOL: XYZ")
+print("SELECTED SYMBOL: " + str(symbol))
 print("-------------------------")
 print("REQUESTING STOCK MARKET DATA...")
 print("REQUEST AT: 2018-02-20 02:00pm")
+
+if "Error message" in response.text
+    print("Oops, we could not find that stock symbol, please try again")
+    quit()
+
+
 
 print("-------------------------")
 print("LATEST DAY: " + str(last_refreshed))
