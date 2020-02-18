@@ -3,6 +3,7 @@
 #modules to import
 import json
 import csv
+import os
 
 #packages to import
 import requests
@@ -77,20 +78,35 @@ print("-------------------------")
 print("HAPPY INVESTING!")
 
 print("-------------------------")
-print("WRITING DATE TO CSV. . .")
+print(f"WRITING DATA TO CSV: {csv_file_path} . . .")
 
 
+#writing data to CSV
+csv_file_path = os.path.join(os.path.dirname(__file__), "..", "data", "prices.csv")
+csv_headers = ["timestamp", "open", "high", "low", "close", "volume"]
 
-# csv-mgmt/write_teams.py
-
-import csv
-
-csv_file_path = "prices.csv" # a relative filepath
 
 with open(csv_file_path, "w") as csv_file: # "w" means "open the file for writing"
-    writer = csv.DictWriter(csv_file, fieldnames=["city", "name"])
+    writer = csv.DictWriter(csv_file, fieldnames= csv_headers)
     writer.writeheader() # uses fieldnames set above
-    writer.writerow({"city": "New York", "name": "Yankees"})
-    writer.writerow({"city": "New York", "name": "Mets"})
-    writer.writerow({"city": "Boston", "name": "Red Sox"})
-    writer.writerow({"city": "New Haven", "name": "Ravens"})
+
+#loop through 
+    writer.writerow({
+        "timestamp": "Todo",
+        "open": "Todo",
+        "high": "Todo",
+        "low": "Todo",
+        "close": "Todo",
+        "volume": "Todo",
+    })
+
+    writer.writerow({
+        "timestamp": "Todo",
+        "open": "Todo",
+        "high": "Todo",
+        "low": "Todo",
+        "close": "Todo",
+        "volume": "Todo",
+    })
+
+#def pritn(value, ..., sep, end, file, flush)
