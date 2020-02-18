@@ -85,28 +85,22 @@ print(f"WRITING DATA TO CSV: {csv_file_path} . . .")
 csv_file_path = os.path.join(os.path.dirname(__file__), "..", "data", "prices.csv")
 csv_headers = ["timestamp", "open", "high", "low", "close", "volume"]
 
-
 with open(csv_file_path, "w") as csv_file: # "w" means "open the file for writing"
     writer = csv.DictWriter(csv_file, fieldnames= csv_headers)
     writer.writeheader() # uses fieldnames set above
 
 #loop through 
-    writer.writerow({
-        "timestamp": "Todo",
-        "open": "Todo",
-        "high": "Todo",
-        "low": "Todo",
-        "close": "Todo",
-        "volume": "Todo",
-    })
+    for date in dates:
+        daily_prices = tsd[date]
+        writer.writerow({
+            "timestamp": date,
+            "open": to_usd(float(daily_prices["1. open"]),
+            "high": to_usd(float(daily_prices["2. high"]),
+            "low": to_usd(float(daily_prices["3. low"]),
+            "close": to_usd(float(daily_prices["4. close"]),
+            "volume": daily_prices["5. volume"],
+        })
 
-    writer.writerow({
-        "timestamp": "Todo",
-        "open": "Todo",
-        "high": "Todo",
-        "low": "Todo",
-        "close": "Todo",
-        "volume": "Todo",
-    })
+
 
 #def pritn(value, ..., sep, end, file, flush)
