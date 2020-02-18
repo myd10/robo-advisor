@@ -23,7 +23,15 @@ parsed_response = json.loads(response.text)
 
 last_refreshed = parsed_response["Meta Data"]["3. Last Refreshed"]
 
-latest_close = parsed_response["Time Series (Daily)"]["2020-02-14"]["4. close"]
+tsd = parsed_response["Time Series (Daily)"]
+
+
+#finding the latest day
+dates = list(tsd.keys()) #assuming that the latest date is first, if the data structure changes we should sort
+latest_day = dates[0]
+
+
+latest_close = tsd[latest_day]["4. close"]
 
 
 print("-------------------------")
