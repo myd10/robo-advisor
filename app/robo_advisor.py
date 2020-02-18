@@ -30,8 +30,17 @@ tsd = parsed_response["Time Series (Daily)"]
 dates = list(tsd.keys()) #assuming that the latest date is first, if the data structure changes we should sort
 latest_day = dates[0]
 
-
 latest_close = tsd[latest_day]["4. close"]
+
+#recent high
+high_prices = []
+
+for date in dates:
+    high_price = float(tsd[latest_day]["2. high"])
+    high_prices.append(high_price)
+
+
+recent_high = max(high_prices)
 
 
 print("-------------------------")
@@ -43,7 +52,7 @@ print("REQUEST AT: 2018-02-20 02:00pm")
 print("-------------------------")
 print("LATEST DAY: " + str(last_refreshed))
 print(f"LATEST CLOSE: {to_usd(float(latest_close))}")
-print("RECENT HIGH: $101,000.00")
+print(f"RECENT HIGH: {to_usd(float(recent_high))}")
 print("RECENT LOW: $99,000.00")
 
 print("-------------------------")
