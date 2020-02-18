@@ -16,15 +16,15 @@ print(response.text) #string, import json to convert it to dictionary
 
 parsed_response = json.loads(response.text)
 
+last_refreshed = parsed_response["Meta Data"]["3. Last Refreshed"]
 
-breakpoint()
 
 
 print("-------------------------")
 print("SELECTED SYMBOL: XYZ")
 print("-------------------------")
 print("REQUESTING STOCK MARKET DATA...")
-print("REQUEST AT: 2018-02-20 02:00pm")
+print("REQUEST AT: " + str(last_refreshed))
 print("-------------------------")
 print("LATEST DAY: 2018-02-20")
 print("LATEST CLOSE: $100,000.00")
