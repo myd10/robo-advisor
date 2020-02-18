@@ -1,12 +1,13 @@
 # app/robo_advisor.py
 
-#packages to import
-
-import requests
+#modules to import
 import json
+import csv
 
+#packages to import
+import requests
 
-#old functio to convert float to USD
+#Function to convert Float to USD
 def to_usd(my_price):
     return "${0:,.2f}".format(my_price)
 
@@ -45,6 +46,10 @@ for date in dates:
 recent_high = max(high_prices)
 recent_low = min(low_prices)
 
+
+
+# writing data to CSV
+
 #breakpoint()
 
 print("-------------------------")
@@ -60,10 +65,32 @@ print(f"RECENT HIGH: {to_usd(float(recent_high))}")
 print(f"RECENT LOW: {to_usd(float(recent_low))}")
 
 print("-------------------------")
+#if statement for recommendation 
+#if blank, print buy
+#elif blank, print hold
+#else blank: print sell
+
 print("RECOMMENDATION: BUY!")
 print("RECOMMENDATION REASON: TODO")
 
 print("-------------------------")
 print("HAPPY INVESTING!")
-print("-------------------------")
 
+print("-------------------------")
+print("WRITING DATE TO CSV. . .")
+
+
+
+# csv-mgmt/write_teams.py
+
+import csv
+
+csv_file_path = "prices.csv" # a relative filepath
+
+with open(csv_file_path, "w") as csv_file: # "w" means "open the file for writing"
+    writer = csv.DictWriter(csv_file, fieldnames=["city", "name"])
+    writer.writeheader() # uses fieldnames set above
+    writer.writerow({"city": "New York", "name": "Yankees"})
+    writer.writerow({"city": "New York", "name": "Mets"})
+    writer.writerow({"city": "Boston", "name": "Red Sox"})
+    writer.writerow({"city": "New Haven", "name": "Ravens"})
