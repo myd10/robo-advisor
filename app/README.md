@@ -23,3 +23,4 @@ pip install requirements
 
 ran app/robo_advisor.py
 
+ALPHAVANTAGE_API_KEY = "abc123"
