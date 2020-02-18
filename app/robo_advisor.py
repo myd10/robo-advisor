@@ -34,14 +34,18 @@ latest_close = tsd[latest_day]["4. close"]
 
 #recent high
 high_prices = []
+low_prices = []
 
 for date in dates:
-    high_price = float(tsd[latest_day]["2. high"])
+    high_price = float(tsd[date]["2. high"])
+    low_price = float(tsd[date]["3. low"]) #date loops through all available data - limit to 100 days? 
     high_prices.append(high_price)
-
+    low_prices.append(low_price)
 
 recent_high = max(high_prices)
+recent_low = min(low_prices)
 
+#breakpoint()
 
 print("-------------------------")
 print("SELECTED SYMBOL: XYZ")
@@ -53,7 +57,7 @@ print("-------------------------")
 print("LATEST DAY: " + str(last_refreshed))
 print(f"LATEST CLOSE: {to_usd(float(latest_close))}")
 print(f"RECENT HIGH: {to_usd(float(recent_high))}")
-print("RECENT LOW: $99,000.00")
+print(f"RECENT LOW: {to_usd(float(recent_low))}")
 
 print("-------------------------")
 print("RECOMMENDATION: BUY!")
