@@ -1,5 +1,25 @@
 # app/robo_advisor.py
 
+#packages to import
+
+import requests
+import json
+
+#
+# Information Inputs
+#
+request_url = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=MSFT&apikey=demo"
+response = requests.get(request_url)
+print(type(response)) # <class 'requests.models.Response'>
+print(response.status_code) #200 or successful
+print(response.text) #string, import json to convert it to dictionary
+
+parsed_response = json.loads(response.text)
+
+
+breakpoint()
+
+
 print("-------------------------")
 print("SELECTED SYMBOL: XYZ")
 print("-------------------------")
