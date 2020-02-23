@@ -1,0 +1,4 @@
+#REQUIREMENTS TO PIP INSTALL
+
+requests
+python-dotenv
