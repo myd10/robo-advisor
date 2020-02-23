@@ -8,22 +8,21 @@ import os
 from datetime import datetime
 
 #PACKAGES TO IMPORT
-import requests
 from dotenv import load_dotenv
 load_dotenv()
+
+import requests
 
 #FUNCTION TO FORMAT USD
 def to_usd(my_price):
     return "${0:,.2f}".format(my_price)
 
-#
 # INFORMATION INPUTS
-#
 
 symbol = input("Enter the Stock Symbol: ")
-#api_key = os.getenv(ALPHAVANTAGE_API_KEY, default="demo")
+api_key = os.environ.get("ALPHAVANTAGE_API_KEY", default = "demo")
 
-request_url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={symbol}&apikey=demo"
+request_url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={symbol}&apikey={api_key}"
 response = requests.get(request_url)
 
 parsed_response = json.loads(response.text)
@@ -114,11 +113,11 @@ with open(csv_file_path, "w") as csv_file: # "w" means "open the file for writin
         daily_prices = tsd[date]
         writer.writerow({
             "timestamp": date,
-            "open": (daily_prices["1. open"]),
-            "high":(daily_prices["2. high"]),
-            "low": (daily_prices["3. low"]),
-            "close": (daily_prices["4. close"]),
-            "volume": daily_prices["5. volume"]
+            "open": to_usd(float(daily_prices["1. open"])),
+            "high":to_usd(float(daily_prices["2. high"])),
+            "low": to_usd(float(daily_prices["3. low"])),
+            "close": to_usd(float(daily_prices["4. close"])),
+            "volume": daily_prices["5. volume"] #string
         })
 
 print("-------------------------")

@@ -28,7 +28,7 @@ Type "code" in your command line to open the robo-advisor in VSC code. You will 
 
 Right click the left toolbar and select new file. Name your file .env
 
-In a new tab, visit https://www.alphavantage.co/support/ obtain a free API key. In your .env file create a variable called ALPHAVANTAGE_API_KEY and set it equal to your API_Key.
+In a new tab, visit https://www.alphavantage.co/support/#api-key obtain a free API key. In your .env file create a variable called ALPHAVANTAGE_API_KEY and set it equal to your API_Key.
    
     ALPHAVANTAGE_API_KEY = "abc123"
 
