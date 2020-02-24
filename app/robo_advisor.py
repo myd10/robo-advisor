@@ -4,7 +4,6 @@
 import json
 import csv
 import os
-
 from datetime import datetime
 
 #PACKAGES TO IMPORT
@@ -20,12 +19,32 @@ def to_usd(my_price):
 # INFORMATION INPUTS
 
 symbol = input("Enter the Stock Symbol: ")
+
+#Error Trapping for Incorrect Ticker format
+while True:
+    try:
+        symbol = float(symbol)
+        print("Oh no, that ticker does not work. Please try again with a properly-formatted stock symbol like 'MSFT'.")
+        quit()
+    except ValueError:
+        break
+
 api_key = os.environ.get("ALPHAVANTAGE_API_KEY", default = "demo")
 
 request_url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={symbol}&apikey={api_key}"
 response = requests.get(request_url)
 
 parsed_response = json.loads(response.text)
+string_response = json.dumps(response.text)
+
+
+#Error Trapping for incorrect ticker 
+if "Error" in string_response: 
+    print("Oops, we could not find that stock symbol. Please check the ticker and try again.") 
+    quit()
+else:
+    pass
+
 last_refreshed = parsed_response["Meta Data"]["3. Last Refreshed"]
 tsd = parsed_response["Time Series (Daily)"]
 
@@ -58,10 +77,9 @@ for date in dates:
 recent_high = max(high_prices)
 recent_low = min(low_prices)
 
-# WRITE DATA TO CSV FILE
-
+#PRINT STOCK SYMBOL HEADER
 print("-------------------------")
-print("SELECTED SYMBOL: " + str(symbol))
+print("SELECTED SYMBOL: " + str(symbol).upper()) #CONVERTS INPUT TO ALL CAPS
 print("-------------------------")
 print("REQUESTING STOCK MARKET DATA...")
 
@@ -79,11 +97,7 @@ elif int(current_hour) < 12 and int(current_minute) < 9:
 else:
     print("REQUEST AT " + str(current_time) + "am on " + str(current_month) + "/" + str(current_day) + "/" + str(current_year))
 
-
-#if "Error message" in str(parsed_response) 
- #   print("Oops, we could not find that stock symbol, please try again")
-  #  quit()
-
+#PRINTING PRICE INFORMATION
 print("-------------------------")
 print("LATEST DAY: " + str(last_refreshed))
 print(f"LATEST CLOSE: {to_usd(float(latest_close))}")
@@ -91,17 +105,23 @@ print(f"RECENT HIGH: {to_usd(float(recent_high))}")
 print(f"RECENT LOW: {to_usd(float(recent_low))}")
 
 print("-------------------------")
-#if statement for recommendation 
-#if blank, print buy
-#elif blank, print hold
-#else blank: print sell
 
-print("RECOMMENDATION: BUY!")
-print("RECOMMENDATION REASON: TODO")
+#ROBO ADVISOR RECOMMENDATION
+if float(latest_close) < 1.20 * float(recent_low) and float(latest_close) < 1000.00:
+    print("RECOMMENDATION: BUY")
+    print("RECOMMENDATION REASON: The price is within 20% of its recent low. This is a good opporunity to buy low and sell high.")
+elif float(latest_close) > 1000.00:
+    print("RECOMMENDATION: DO NOT BUY")
+    print("RECOMMENDATION REASON: Empirical evidence shows that a diversified portfolio performs better than less diversifed portfolios. Spending more than $1,000 on a single share, will limit your ability to diversify and is therefore not a prudent decision.")
+elif float(latest_close) > 1.20 * float(recent_low) and float(latest_close) < 1.50 * float(recent_low):
+   print("RECOMMENDATION: BUY A FEW SHARES.")
+   print("RECOMMENDATION REASON: The stock is undervalued and diversfication is important. However we feel less confident about " + str(symbol).upper() + " than we feel about other stocks.")
+else:
+    print("RECOMMENDATION: DO NOT BUY")
+    print("RECOMMENDATION REASON: The latest closing price is too near its recent high. Wait until the stock price falls to make this purchase.")
 
 print("-------------------------")
 print("HAPPY INVESTING!")
-
 
 #writing data to CSV
 csv_file_path = os.path.join(os.path.dirname(__file__), "..", "data", "prices.csv") # a relative filepath
@@ -122,19 +142,3 @@ with open(csv_file_path, "w") as csv_file: # "w" means "open the file for writin
 
 print("-------------------------")
 print(f"WRITING DATA TO CSV: {csv_file_path}...")
-
-##loop through 
-#    for date in dates:
-#        daily_prices = tsd[date]
-#        writer.writerow({
-#            "timestamp": date,
-#            "open": (daily_prices["1. open"]),
-#            "high": (daily_prices["2. high"]),
-#            "low": (daily_prices["3. low"]),
-#            "close": (daily_prices["4. close"]), 
-#            "volume": daily_prices["5. volume"],
-#        })
-#
-
-
-#def pritn(value, ..., sep, end, file, flush)
