@@ -145,7 +145,7 @@ while run:
     print(f"WRITING DATA TO CSV: {csv_file_path}...")
 
 
-    again=str(input("Do you want information on another stock? [y/n] "))
+    again=str(input("Do you want information on another stock? [y/n] ")) #https://stackoverflow.com/questions/26961427/asking-the-user-if-they-want-to-play-again 
     if again.lower() == "yes" or again.lower() == "y":
         run = True
     else:

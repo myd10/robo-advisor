@@ -1,6 +1,6 @@
 # robo-advisor
 
-![image](https://user-images.githubusercontent.com/59658326/75120102-b14cd480-5656-11ea-9b26-b74f9db0e525.png)
+![image](https://user-images.githubusercontent.com/59658326/75120102-b14cd480-5656-11ea-9b26-b74f9db0e525.png) https://www.thebalance.com/what-is-a-robo-advisor-and-how-do-they-work-4097134
 
 ## Purpose:  
 This program advises client on buying stocks or cryptocurrencies. By entering your personalized API key and a stock or crypto symbol, you will be given current price information and our purchasing adivce. 
@@ -40,8 +40,10 @@ You will be prompted to enter a stock symbol. If you type an incorrect stock sym
 
 The program will ask if you would like to search for additional stocks.
 
+Price information for the last 100 days will be written in data/price.csv.
+
 ## Example Output
 
-![image](https://user-images.githubusercontent.com/59658326/75120073-734fb080-5656-11ea-851a-c7644f73bd33.png)
+![image](https://user-images.githubusercontent.com/59658326/75125114-7b711580-5681-11ea-8abf-132c5503432b.png)
 
 # Happy Investing
