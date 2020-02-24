@@ -97,7 +97,7 @@ while run:
     elif int(current_hour) < 12 and int(current_minute) < 9:
         print("REQUEST AT " + str(current_hour) + ":0" + str(current_minute) + "am on " + str(current_month) + "/" + str(current_day) + "/" + str(current_year))
     else:
-        print("REQUEST AT " + str(current_time) + "am on " + str(current_month) + "/" + str(current_day) + "/" + str(current_year))
+        print("REQUEST AT " + str(current_hour) + ":" + str(current_minute) + "am on " + str(current_month) + "/" + str(current_day) + "/" + str(current_year))
 
     #PRINTING PRICE INFORMATION
     print("-------------------------")
@@ -109,13 +109,13 @@ while run:
     print("-------------------------")
 
     #ROBO ADVISOR RECOMMENDATION
-    if float(latest_close) < 1.20 * float(recent_low) and float(latest_close) < 1000.00:
+    if float(latest_close) < 1.10 * float(recent_low) and float(latest_close) < 1000.00:
         print("RECOMMENDATION: BUY")
         print("RECOMMENDATION REASON: The price is within 20% of its recent low. This is a good opporunity to buy low and sell high.")
     elif float(latest_close) > 1000.00:
         print("RECOMMENDATION: DO NOT BUY")
         print("RECOMMENDATION REASON: Empirical evidence shows that a diversified portfolio performs better than less diversifed portfolios. Spending more than $1,000 on a single share, will limit your ability to diversify and is therefore not a prudent decision.")
-    elif float(latest_close) > 1.20 * float(recent_low) and float(latest_close) < 1.50 * float(recent_low):
+    elif float(latest_close) > 1.10 * float(recent_low) and float(latest_close) < 1.30 * float(recent_low):
        print("RECOMMENDATION: BUY A FEW SHARES.")
        print("RECOMMENDATION REASON: The stock is undervalued and diversfication is important. However we feel less confident about " + str(symbol).upper() + " than we feel about other stocks.")
     else:
@@ -125,7 +125,7 @@ while run:
     print("-------------------------")
 
     #writing data to CSV
-    csv_file_path = os.path.join(os.path.dirname(__file__), "..", "data", "prices.csv") # a relative filepath
+    csv_file_path = os.path.join(os.path.dirname(__file__), "..", "data", f"{symbol}_prices.csv") # a relative filepath
     csv_headers = ["timestamp", "open", "high", "low", "close", "volume"]
     with open(csv_file_path, "w") as csv_file: # "w" means "open the file for writing"
         writer = csv.DictWriter(csv_file, fieldnames=csv_headers)
