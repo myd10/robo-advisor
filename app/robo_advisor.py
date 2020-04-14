@@ -9,15 +9,49 @@ from datetime import datetime
 #PACKAGES TO IMPORT
 from dotenv import load_dotenv
 load_dotenv()
-
 import requests
 
-#FUNCTION TO FORMAT USD
+API_KEY = os.environ.get("ALPHAVANTAGE_API_KEY", default = "demo")
+
 def to_usd(my_price):
+    """
+    Converts float or interger into a readible USD format
+    Param: my_price
+    Input: to_usd(4000.444)
+    Return: $4,000.44
+    """
     return "${0:,.2f}".format(my_price)
+
+def get_response(symbol):
+    """
+    """
+    request_url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={symbol}&apikey={API_KEY}"
+    response = requests.get(request_url)
+    parsed_response = json.loads(response.text)
+    return parsed_response
+
+def transform_response(parsed_response):
+    """
+    """
+    tsd = parsed_response["Time Series (Daily)"]
+
+    rows=[]
+
+def lines():
+    """
+    Improve readability by dividing sections with dashed lines
+    Param: none
+    Input: lines()
+    Return: ("-------------------------")
+    """
+    print("-------------------------")
 
 run = True
 while run:
+
+
+#if __name__ == "__main__":
+
     
 # INFORMATION INPUTS
     symbol = input("Enter the Stock Symbol: ")
@@ -31,12 +65,7 @@ while run:
         except ValueError:
             break
 
-    api_key = os.environ.get("ALPHAVANTAGE_API_KEY", default = "demo")
 
-    request_url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={symbol}&apikey={api_key}"
-    response = requests.get(request_url)
-
-    parsed_response = json.loads(response.text)
     string_response = json.dumps(response.text)
 
 
@@ -48,7 +77,6 @@ while run:
         pass
 
     last_refreshed = parsed_response["Meta Data"]["3. Last Refreshed"]
-    tsd = parsed_response["Time Series (Daily)"]
 
 
     #TIME OF REQUEST
@@ -80,9 +108,9 @@ while run:
     recent_low = min(low_prices)
 
     #PRINT STOCK SYMBOL HEADER
-    print("-------------------------")
+    lines()
     print("SELECTED SYMBOL: " + str(symbol).upper()) #CONVERTS INPUT TO ALL CAPS
-    print("-------------------------")
+    lines()
     print("REQUESTING STOCK MARKET DATA...")
 
     #DATE AND TIME OF REQUEST
@@ -100,13 +128,12 @@ while run:
         print("REQUEST AT " + str(current_hour) + ":" + str(current_minute) + "am on " + str(current_month) + "/" + str(current_day) + "/" + str(current_year))
 
     #PRINTING PRICE INFORMATION
-    print("-------------------------")
+    lines()
     print("LATEST DAY: " + str(last_refreshed))
     print(f"LATEST CLOSE: {to_usd(float(latest_close))}")
     print(f"RECENT HIGH: {to_usd(float(recent_high))}")
     print(f"RECENT LOW: {to_usd(float(recent_low))}")
-
-    print("-------------------------")
+    lines()
 
     #ROBO ADVISOR RECOMMENDATION
     if float(latest_close) < 1.10 * float(recent_low) and float(latest_close) < 1000.00:
@@ -122,7 +149,7 @@ while run:
         print("RECOMMENDATION: DO NOT BUY")
         print("RECOMMENDATION REASON: The latest closing price is too near its recent high. Wait until the stock price falls to make this purchase.")
 
-    print("-------------------------")
+    lines()
 
     #writing data to CSV
     csv_file_path = os.path.join(os.path.dirname(__file__), "..", "data", f"{symbol.upper()}_prices.csv") # a relative filepath
@@ -141,7 +168,7 @@ while run:
                 "volume": daily_prices["5. volume"] #string
             })
 
-    print("-------------------------")
+    lines()
     print(f"WRITING DATA TO CSV: {csv_file_path}...")
 
 
