@@ -1,18 +1,5 @@
 # app/robo_advisor.py
 
-#MODULES TO IMPORT
-import json
-import csv
-import os
-from datetime import datetime
-
-#PACKAGES TO IMPORT
-from dotenv import load_dotenv
-load_dotenv()
-import requests
-
-API_KEY = os.environ.get("ALPHAVANTAGE_API_KEY", default = "demo")
-
 def to_usd(my_price):
     """
     Converts float or interger into a readible USD format
@@ -102,10 +89,21 @@ run = True
 while run:
 
     if __name__ == "__main__":
-    
-    # SYMBOL INPUT & ERROR TRAPPING FOR INCORRECT TICKER FORMAT
+        #MODULES TO IMPORT
+        import json
+        import csv
+        import os
+        from datetime import datetime
+
+        #PACKAGES TO IMPORT
+        from dotenv import load_dotenv
+        load_dotenv()
+        import requests
+
+        API_KEY = os.environ.get("ALPHAVANTAGE_API_KEY", default = "demo")
         symbol = input("Enter the Stock Symbol: ")
-    
+        # SYMBOL INPUT & ERROR TRAPPING FOR INCORRECT TICKER FORMAT
+
         while True:
             try:
                 symbol = float(symbol)
@@ -117,7 +115,7 @@ while run:
         request_url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={symbol}&apikey={API_KEY}"
         response = requests.get(request_url)
         string_response = json.dumps(response.text)
-    
+
         if "Error" in string_response: 
             print("Oops, we could not find that stock symbol. Please check the ticker and try again.") 
             quit()
@@ -125,54 +123,35 @@ while run:
             pass
         
         #INFORMATION INPUTS
-    
+
         parsed_response = get_response(symbol)
-    
+
         last_refreshed = parsed_response["Meta Data"]["3. Last Refreshed"]
-        
+
         rows = transform_response(parsed_response)
-    
+
         now = datetime.now()
-    
+
         #dates = list(tsd.keys())
-    
+
         latest_day = rows[0]
-    
+
         latest_close = rows[0]["close"]
-    
+
         #RECENT HIGH & LOW
         high_prices = [row["high"] for row in rows]
         low_prices = [row["low"] for row in rows]
         recent_high = max(high_prices)
         recent_low = min(low_prices)
     
-       # for date in dates:
-       #     high_price = float(tsd[date]["2. high"])
-       #     low_price = float(tsd[date]["3. low"])
-       #     high_prices.append(high_price)
-       #     low_prices.append(low_price)
-    #
-    
         current_friendly_time = friendly_timestamp(datetime.now())
     
         csv_file_path = os.path.join(os.path.dirname(__file__), "..", "data", f"{symbol.upper()}_prices.csv")
         write_to_csv(rows, csv_file_path)
-    
-        
-        # "w" means "open the file for writing"
-    
-            #for date in dates:
-            #    daily_prices = tsd[date]
-            #    writer.writerow({
-            #        "timestamp": date,
-            #        "open": to_usd(float(daily_prices["1. open"])),
-            #        "high":to_usd(float(daily_prices["2. high"])),
-            #        "low": to_usd(float(daily_prices["3. low"])),
-            #        "close": to_usd(float(daily_prices["4. close"])),
-            #        "volume": daily_prices["5. volume"] #string
-            #    })
-    
-    
+
+        breakpoint()
+
+
     lines()
     print(f"SELECTED SYMBOL: {symbol.upper()}")
     lines()
@@ -200,7 +179,7 @@ while run:
     lines()
     print(f"WRITING DATA TO CSV: {csv_file_path}...")
     lines()
-    
+
     again=str(input("Do you want information on another stock? [y/n] ")) #https://stackoverflow.com/questions/26961427/asking-the-user-if-they-want-to-play-again 
     if again.lower() == "yes" or again.lower() == "y":
         run = True 
@@ -208,4 +187,5 @@ while run:
         print("HAPPY INVESTING!")
         quit()
     lines()
+        
     
