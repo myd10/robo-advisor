@@ -17,7 +17,7 @@ def to_usd(my_price):
     """
     Converts float or interger into a readible USD format
     Param: my_price
-    Input: to_usd(4000.444)
+    Example: to_usd(4000.444)
     Return: $4,000.44
     """
     return "${0:,.2f}".format(my_price)
@@ -41,10 +41,26 @@ def lines():
     """
     Improve readability by dividing sections with dashed lines
     Param: none
-    Input: lines()
+    Example: lines()
     Return: ("-------------------------")
     """
     print("-------------------------")
+
+def friendly_timestamp(now):
+    """
+    Converts datetime information into a human friendly string
+    Param: now
+    Example: 
+        current_year = 2020
+        current_month = 4
+        current_day = 14
+        current_hour = 20
+        current_minute = 5
+        current second = 12
+    Returns: 2020-4-13 8:05pm 
+    """
+    return (now).strftime(("%m/%d/%Y %I:%M %p"))
+
 
 run = True
 while run:
@@ -80,13 +96,13 @@ while run:
 
 
     #TIME OF REQUEST
-    now = datetime.now()
-    current_time = now.strftime("%H:%M:%S") #help from https://www.programiz.com/python-programming/datetime/current-time
-    current_year = now.year
-    current_month = now.month
-    current_day = now.day
-    current_hour = now.hour
-    current_minute = now.minute
+    now = datetime.datetime.now()
+    # current_time = now.strftime("%H:%M:%S") #help from https://www.programiz.com/python-programming/datetime/current-time
+    # current_year = now.year
+    # current_month = now.month
+    # current_day = now.day
+    # current_hour = now.hour
+    # current_minute = now.minute
 
     #FINDING THE LATEST DAY
     dates = list(tsd.keys()) #assuming that the latest date is first
@@ -114,20 +130,26 @@ while run:
     print("REQUESTING STOCK MARKET DATA...")
 
     #DATE AND TIME OF REQUEST
-    if int(current_hour) > 12 and int(current_minute) > 9:
-        print("REQUEST AT " + str(current_hour - 12) + ":" + str(current_minute) + "pm on " + str(current_month) + "/" + str(current_day) + "/" + str(current_year))
-    elif int(current_hour) > 12 and int(current_minute) < 9: 
-        print ("REQUEST AT " + str(current_hour-12) + ":0" + str(current_minute) + "pm on " + str(current_month) + "/" + str(current_day) + "/" + str(current_year))
-    elif int(current_hour) is 12 and int(current_minute) < 9:
-        print("REQUEST AT " + str(current_hour) + ":0" + str(current_minute) + "pm on " + str(current_month) + "/" + str(current_day) + "/" + str(current_year))
-    elif int(current_hour) is 12 and int(current_minute) > 9:
-        print("REQUEST AT " + str(current_hour) + ":" + str(current_minute) + "pm on " + str(current_month) + "/" + str(current_day) + "/" + str(current_year))
-    elif int(current_hour) < 12 and int(current_minute) < 9:
-        print("REQUEST AT " + str(current_hour) + ":0" + str(current_minute) + "am on " + str(current_month) + "/" + str(current_day) + "/" + str(current_year))
-    else:
-        print("REQUEST AT " + str(current_hour) + ":" + str(current_minute) + "am on " + str(current_month) + "/" + str(current_day) + "/" + str(current_year))
+   # if int(current_hour) > 12 and int(current_minute) > 9:
+   #     print("REQUEST AT " + str(current_hour - 12) + ":" + str(current_minute) + "pm on " + str(current_month) + "/" + str(current_day) + "/" + str(current_year))
+   # elif int(current_hour) > 12 and int(current_minute) < 9: 
+   #     print ("REQUEST AT " + str(current_hour-12) + ":0" + str(current_minute) + "pm on " + str(current_month) + "/" + str(current_day) + "/" + str(current_year))
+   # elif int(current_hour) is 12 and int(current_minute) < 9:
+   #     print("REQUEST AT " + str(current_hour) + ":0" + str(current_minute) + "pm on " + str(current_month) + "/" + str(current_day) + "/" + str(current_year))
+   # elif int(current_hour) is 12 and int(current_minute) > 9:
+   #     print("REQUEST AT " + str(current_hour) + ":" + str(current_minute) + "pm on " + str(current_month) + "/" + str(current_day) + "/" + str(current_year))
+   # elif int(current_hour) < 12 and int(current_minute) < 9:
+   #     print("REQUEST AT " + str(current_hour) + ":0" + str(current_minute) + "am on " + str(current_month) + "/" + str(current_day) + "/" + str(current_year))
+   # else:
+   #     print("REQUEST AT " + str(current_hour) + ":" + str(current_minute) + "am on " + str(current_month) + "/" + str(current_day) + "/" + str(current_year))
 
     #PRINTING PRICE INFORMATION
+
+    lines()
+    print(datetime.now(("%Y-%m-%d %H:%M:%S") ))
+    lines()
+
+
     lines()
     print("LATEST DAY: " + str(last_refreshed))
     print(f"LATEST CLOSE: {to_usd(float(latest_close))}")
