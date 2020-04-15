@@ -149,8 +149,6 @@ while run:
         csv_file_path = os.path.join(os.path.dirname(__file__), "..", "data", f"{symbol.upper()}_prices.csv")
         write_to_csv(rows, csv_file_path)
 
-        breakpoint()
-
 
     lines()
     print(f"SELECTED SYMBOL: {symbol.upper()}")
